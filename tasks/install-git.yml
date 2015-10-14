@@ -21,4 +21,7 @@
   shell: cd /usr/local/src/git-{{ git_version }} && make prefix=/usr/local all && make prefix=/usr/local install
 
 - name: delete git source
-  file: path=/usr/local/src/git-{{ git_version }} state=absent
+  file: path={{ item }} state=absent
+  with_items:
+    - '/usr/local/src/git-{{ git_version }}'
+    - '/usr/local/src/git-{{ git_version }}.tar.gz'
