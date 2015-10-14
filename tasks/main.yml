@@ -1,0 +1,14 @@
+---
+
+- name: check whether git of expected version has been installed
+  shell: /usr/local/bin/git --version | sed 's/git version //'
+  register: git_version_result
+  changed_when: no
+  failed_when: no
+  tags:
+    - git
+
+- include: install-git.yml
+  when: git_version_result.rc != 0 or git_version_result.stdout != git_version
+  tags:
+    - git

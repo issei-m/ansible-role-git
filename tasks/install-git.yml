@@ -1,0 +1,24 @@
+---
+
+- name: ensure packages git depends on have been installed
+  yum: name={{ item }} state=installed
+  with_items:
+    - gcc
+    - curl-devel
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - zlib-devel
+    - perl-ExtUtils-MakeMaker
+
+- name: download git source
+  get_url: url=https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz dest=/usr/local/src/git-{{ git_version }}.tar.gz
+
+- name: unarchive git source
+  unarchive: src=/usr/local/src/git-{{ git_version }}.tar.gz dest=/usr/local/src copy=no
+
+- name: compile git
+  shell: cd /usr/local/src/git-{{ git_version }} && make prefix=/usr/local all && make prefix=/usr/local install
+
+- name: delete git source
+  file: path=/usr/local/src/git-{{ git_version }} state=absent
