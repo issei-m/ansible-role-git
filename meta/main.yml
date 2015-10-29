@@ -2,3 +2,16 @@
 
 allow_duplicates: no
 dependencies:     []
+
+galaxy_info:
+  author: issei-m
+  description: Installs git of version you want by compiling source for CentOS 7.
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  categories:
+    - system
+    - development
