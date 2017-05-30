@@ -1,5 +1,8 @@
 ---
 
+- name: ensure git package has been removed
+  yum: name=git state=removed
+
 - name: ensure packages git depends on have been installed
   yum: name={{ item }} state=installed
   with_items:
