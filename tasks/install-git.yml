@@ -1,8 +1,5 @@
 ---
 
-- name: ensure git package has been removed
-  yum: name=git state=removed
-
 - name: ensure packages git depends on have been installed
   yum: name={{ item }} state=installed
   with_items:
@@ -28,3 +25,6 @@
   with_items:
     - '/usr/local/src/git-{{ git_version }}'
     - '/usr/local/src/git-{{ git_version }}.tar.gz'
+
+- name: ensure git package of OS default has been removed
+  yum: name=git state=removed
