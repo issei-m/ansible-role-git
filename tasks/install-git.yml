@@ -25,3 +25,6 @@
   with_items:
     - '/usr/local/src/git-{{ git_version }}'
     - '/usr/local/src/git-{{ git_version }}.tar.gz'
+
+- name: ensure git package of OS default has been removed
+  yum: name=git state=removed
