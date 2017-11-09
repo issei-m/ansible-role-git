@@ -7,11 +7,18 @@ galaxy_info:
   author: issei-m
   description: Installs git of version you want by compiling source for CentOS 7.
   license: MIT
-  min_ansible_version: 1.4
+  min_ansible_version: 1.9
   platforms:
   - name: EL
     versions:
+    - 6
     - 7
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
   categories:
     - system
     - development
+  galaxy_tags:
+    - git
