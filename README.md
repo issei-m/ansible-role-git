@@ -1,7 +1,7 @@
 git
 ===
 
-Installs git of version you want by compiling source for CentOS 7.
+Installs git of version you want by compiling source for CentOS 6/7 and Ubuntu.
 
 Requirements
 ------------
