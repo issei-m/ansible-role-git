@@ -14,7 +14,7 @@ Role Variables
 Default variables are:
 
 ```yaml
-git_version: 2.6.1
+git_version: 2.16.2
 ```
 
 Description:
