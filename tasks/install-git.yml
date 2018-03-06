@@ -36,7 +36,7 @@
 
 - name: ensure git package of OS default has been removed if Debian
   apt:
-    pkg: git
+    name: git
     state: removed
   when: ansible_os_family == 'Debian'
 
