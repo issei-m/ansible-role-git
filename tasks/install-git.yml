@@ -28,6 +28,18 @@
     - libz-dev
   when: ansible_os_family == 'Debian'
 
+- name: ensure git package of OS default has been removed if RedHat
+  yum:
+    name: git
+    state: removed
+  when: ansible_os_family == 'RedHat'
+
+- name: ensure git package of OS default has been removed if Debian
+  apt:
+    pkg: git
+    state: removed
+  when: ansible_os_family == 'Debian'
+
 - name: download git source
   get_url:
     url: 'https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz'
@@ -49,8 +61,3 @@
   with_items:
     - '/usr/local/src/git-{{ git_version }}'
     - '/usr/local/src/git-{{ git_version }}.tar.gz'
-
-- name: ensure git package of OS default has been removed
-  yum:
-    name: git
-    state: removed
