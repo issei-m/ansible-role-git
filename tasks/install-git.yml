@@ -1,7 +1,9 @@
 ---
 
-- name: ensure packages git depends on have been installed
-  yum: name={{ item }} state=installed
+- name: ensure packages git depends on have been installed if RedHat
+  yum:
+    name: '{{ item }}'
+    state: installed
   with_items:
     - gcc
     - curl-devel
@@ -10,21 +12,52 @@
     - openssl-devel
     - zlib-devel
     - perl-ExtUtils-MakeMaker
+  when: ansible_os_family == 'RedHat'
+
+- name: ensure packages git depends on have been installed if Debian
+  apt:
+    pkg: '{{ item }}'
+    state: installed
+    update_cache: yes
+  with_items:
+    - build-essential
+    - libcurl4-gnutls-dev
+    - libexpat1-dev
+    - gettext
+    - libssl-dev
+    - libz-dev
+  when: ansible_os_family == 'Debian'
+
+- name: ensure git package of OS default has been removed if RedHat
+  yum:
+    name: git
+    state: removed
+  when: ansible_os_family == 'RedHat'
+
+- name: ensure git package of OS default has been removed if Debian
+  apt:
+    name: git
+    state: removed
+  when: ansible_os_family == 'Debian'
 
 - name: download git source
-  get_url: url=https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz dest=/usr/local/src/git-{{ git_version }}.tar.gz
+  get_url:
+    url: 'https://www.kernel.org/pub/software/scm/git/git-{{ git_version }}.tar.gz'
+    dest: '/usr/local/src/git-{{ git_version }}.tar.gz'
 
 - name: unarchive git source
-  unarchive: src=/usr/local/src/git-{{ git_version }}.tar.gz dest=/usr/local/src copy=no
+  unarchive:
+    src: '/usr/local/src/git-{{ git_version }}.tar.gz'
+    dest: '/usr/local/src'
+    copy: no
 
 - name: compile git
-  shell: cd /usr/local/src/git-{{ git_version }} && make prefix=/usr/local all && make prefix=/usr/local install
+  shell: 'cd /usr/local/src/git-{{ git_version }} && make prefix=/usr/local all && make prefix=/usr/local install'
 
 - name: delete git source
-  file: path={{ item }} state=absent
+  file:
+    path: '{{ item }}'
+    state: absent
   with_items:
     - '/usr/local/src/git-{{ git_version }}'
     - '/usr/local/src/git-{{ git_version }}.tar.gz'
-
-- name: ensure git package of OS default has been removed
-  yum: name=git state=removed
